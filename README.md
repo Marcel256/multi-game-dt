@@ -1,2 +1,2 @@
 # multi-game-dt
-Multi-game decision transformer
+Pytorch implementation of the Multi-game decision transformer (work in progress)
