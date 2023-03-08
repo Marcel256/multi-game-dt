@@ -71,20 +71,17 @@ def split_buffer(file_number, base_dir, out_dir, splits, game):
         start = end
 
 
-games = ['Asterix',
-'BeamRider',
+games = [
+'Skiing',
 'Breakout',
 'DemonAttack',
-'Gravitar',
-'TimePilot',
 'SpaceInvaders',
-'Jamesbond',
 'Assault',
-'Frostbite']
+]
 
-ogames = ['Breakout']
 
-for game in ogames:
+
+for game in games:
     base = os.path.join(root_dir, game)
     out = os.path.join(out_base_dir, game)
     if not os.path.exists(out):

@@ -1,7 +1,7 @@
 wandb:
   project: multi-task-dt
   entity: marcel98
-  model_name: model7
+  model_name: model1
 
 model:
   emb_dim: 256

@@ -39,14 +39,19 @@ def lr_decay(step, warmup_steps, final_lr_steps, min_lr_factor):
     return max(min_lr_factor, lr_factor)
 
 
-def save_model(model, optimizer, scheduler, path, model_version):
-    checkpoint_file = os.path.join(path, 'model-{}.pt'.format(model_version))
+def save_model(model, optimizer, scheduler, cfg, model_version):
+    checkpoint_file = os.path.join(cfg.ckpt_path, 'model-{}.pt'.format(model_version))
     torch.save({
         'model_version': model_version,
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'scheduler_state_dict': scheduler.state_dict()
     }, checkpoint_file)
+    artifact = wandb.Artifact(name=cfg.wandb.model_name, type='model', metadata={
+        "version": model_version,
+    })
+    artifact.add_file(checkpoint_file)
+    wandb.log_artifact(artifact)
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
 def train(cfg: DictConfig):
@@ -83,18 +88,6 @@ def train(cfg: DictConfig):
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
 
-    eval_games = ['Asterix',
-'BeamRider',
-'Breakout',
-'DemonAttack',
-'Gravitar',
-'TimePilot',
-'SpaceInvaders',
-'Jamesbond',
-'Assault',
-'Frostbite']
-
-
 
     num_obs_tokens = 36
     num_non_obs_tokens = 3
@@ -111,16 +104,14 @@ def train(cfg: DictConfig):
     loss_list = []
     i = 0
     log_loss_steps = 100
-    validation_steps = 2000
-    valid_dataset = AtariDataset('data/valid_breakout', 0, cfg.model.context_length)
-    valid_dataloader = DataLoader(valid_dataset, batch_size=64, shuffle=True)
+    validation_steps = 5000
 
     model.train()
 
     for epoch in range(cfg.train.epochs):
         random.shuffle(dataset_file_list)
         for dataset_file in dataset_file_list:
-            dataset = AtariDataset('data/single_split/Breakout', dataset_file, cfg.model.context_length)
+            dataset = AtariDataset('data/merged', dataset_file, cfg.model.context_length)
             dataloader = DataLoader(dataset, batch_size=cfg.train.batch_size, shuffle=True)
             for batch in tqdm(dataloader):
                 optimizer.zero_grad()
@@ -152,10 +143,10 @@ def train(cfg: DictConfig):
                     loss_list = []
 
                 if (i+1) % validation_steps == 0:
-                    valid_loss = eval_offline(model, mask, cfg, valid_dataloader, device)
-                    wandb.log({"valid_loss": valid_loss})
-                    model.train()
-                    save_model(model, optimizer, scheduler, cfg.ckpt_path, model_version)
+                    #valid_loss = eval_offline(model, mask, cfg, valid_dataloader, device)
+                    #wandb.log({"valid_loss": valid_loss})
+                    #model.train()
+                    save_model(model, optimizer, scheduler, cfg, model_version)
                     model_version += 1
 
 

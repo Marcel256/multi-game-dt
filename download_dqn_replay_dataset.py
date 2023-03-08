@@ -7,18 +7,15 @@ from subprocess import Popen
 
 
 
-games = ['Asterix',
-'BeamRider',
+games = [
+'Skiing',
 'Breakout',
 'DemonAttack',
-'Gravitar',
-'TimePilot',
 'SpaceInvaders',
-'Jamesbond',
 'Assault',
-'Frostbite']
+]
 file_types = ['observation', 'action', 'reward', 'terminal']
-file_range = range(50, 51)
+file_range = range(42, 43)
 
 def get_file_name(type, file_number):
     return '$store$_{}_ckpt.{}.gz'.format(type, file_number)
@@ -26,7 +23,7 @@ def get_file_name(type, file_number):
 uri_pattern = 'gs://atari-replay-datasets/dqn/{}/1/replay_logs/{}'
 download_dir = 'data/download'
 
-for game in ['Asterix']:
+for game in games:
     game_dir = os.path.join(download_dir, game)
     if not os.path.exists(game_dir):
         os.makedirs(game_dir)

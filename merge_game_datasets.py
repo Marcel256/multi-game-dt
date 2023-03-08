@@ -3,16 +3,13 @@ import os
 
 import numpy as np
 splits = 11
-games = ['Asterix',
-'BeamRider',
+games = [
+'Skiing',
 'Breakout',
 'DemonAttack',
-'Gravitar',
-'TimePilot',
 'SpaceInvaders',
-'Jamesbond',
 'Assault',
-'Frostbite']
+]
 
 input_dir = 'data/split'
 out_dir = 'data/merged'
