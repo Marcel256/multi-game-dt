@@ -72,11 +72,11 @@ def split_buffer(file_number, base_dir, out_dir, splits, game):
 
 
 games = [
-'Skiing',
-'Breakout',
+'Pong',
+'Qbert',
 'DemonAttack',
 'SpaceInvaders',
-'Assault',
+'Breakout',
 ]
 
 

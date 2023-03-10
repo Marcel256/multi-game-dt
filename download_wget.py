@@ -1,17 +1,15 @@
 import os
-url = 'https://www.someurl.com'
-output_file = ""
 
 
 
 
 
 games = [
-'Skiing',
-'Breakout',
+'Pong',
+'Qbert',
 'DemonAttack',
 'SpaceInvaders',
-'Assault',
+'Breakout',
 ]
 file_types = ['observation', 'action', 'reward', 'terminal']
 file_range = range(41, 43)

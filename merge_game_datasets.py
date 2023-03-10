@@ -2,13 +2,13 @@ import gzip
 import os
 
 import numpy as np
-splits = 11
+splits = 1
 games = [
-'Skiing',
-'Breakout',
+'Pong',
+'Qbert',
 'DemonAttack',
 'SpaceInvaders',
-'Assault',
+'Breakout',
 ]
 
 input_dir = 'data/split'

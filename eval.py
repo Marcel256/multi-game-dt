@@ -95,7 +95,7 @@ def eval_model_on_games(model: DecisionTransformer, mask, seq_len, games, device
 
 def eval_model_on_game(model: DecisionTransformer, mask, seq_len, game, device, n_runs=10):
     model.eval()
-    env = AtariEnv(game, clip_reward=True)
+    env = AtariEnv(game)
     env = SequenceEnvironmentWrapper(env, seq_len, game_name=game)
     scores = [eval_game(model, mask, env, device, MaxSampler(10))[0] for run in range(n_runs)]
     return np.min(scores), np.max(scores), np.mean(scores)
@@ -218,7 +218,7 @@ def eval(cfg: DictConfig):
 
     seq_len = cfg.model.context_length
     return_range = (cfg.model.r_low, cfg.model.r_high)
-    checkpoint = torch.load('models/breakout4/model-75.pt')
+    checkpoint = torch.load('models/download/nd-model-27.pt')
     model = DecisionTransformer(cfg.model)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.to(device)
@@ -227,7 +227,11 @@ def eval(cfg: DictConfig):
     mask = torch.from_numpy(generate_attention_mask(36, 3, seq_len)).to(device)
 
 
-    eval_model_on_games(model, mask, 4, ['Breakout'], device, n_runs=10)
+    eval_model_on_games(model, mask, 4, ['Skiing',
+'Breakout',
+'DemonAttack',
+'SpaceInvaders',
+'Assault'], device, n_runs=10)
 
 if __name__ == "__main__":
     eval()

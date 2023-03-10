@@ -15,7 +15,7 @@ games = [
 'Assault',
 ]
 file_types = ['observation', 'action', 'reward', 'terminal']
-file_range = range(42, 43)
+file_range = range(41, 43)
 
 def get_file_name(type, file_number):
     return '$store$_{}_ckpt.{}.gz'.format(type, file_number)

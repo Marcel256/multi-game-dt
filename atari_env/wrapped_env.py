@@ -133,7 +133,7 @@ class SequenceEnvironmentWrapper(WrappedGymEnv):
     self.act_stack[-1] = action
     action = FULL_ACTION_TO_LIMITED_ACTION[self.game_name][action]
     obs, rew, done, tr, info = self._env.step(action)
-    self.rew_stack[-1] = rew
+    self.rew_stack[-1] = np.clip(rew, -1, 1)
     # Update frame stack.
     self.obs_stack.append(obs)
     self.act_stack.append(0)  # Append unknown action to current timestep.
