@@ -30,4 +30,4 @@ for game in games:
             path = url_pattern.format(game, file_name)
             print('Downloading ', path)
             out_file = os.path.join(game_dir, file_name)
-            os.system(f"""wget -O "{out_file}" "{path}""")
+            os.system("wget -O '{}' '{}'".format(out_file, path))
